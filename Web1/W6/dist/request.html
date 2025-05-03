@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request a New Artist</title>
+    <link rel="stylesheet" href="/request.0e7f55f3.css">
+    </head><body>
+      <div class="container">
+        <h1>Request a New Artist</h1>
+        <form id="new-artist-form" action="https://httpbin.org/post" method="POST" class="artist-form">
+          <div class="form-group">
+            <label for="artist-name">Artist's Name</label>
+            <input type="text" id="artist-name" name="artist_name" required="">
+          </div>
+          <br>
+
+          <div class="form-group">
+            <label for="music-genre">Music Genre</label>
+            <input list="genres" id="music-genre" name="music_genre" required="">
+            <datalist id="genres">
+              <!-- Pre-defined genres -->
+              <option value="Pop"></option>
+              <option value="Art Pop"></option>
+              <option value="Pop Rock"></option>
+            </datalist>
+          </div>
+          <br>
+
+          <div class="form-group">
+            <label for="social-media-urls">Media URL</label>
+            <input type="url" id="social-media-urls" name="social_media_urls" placeholder="https://www.example1.com, https://www.example2.com" required="">
+          </div>
+          <br>
+
+          <div class="form-group">
+            <label>Songs and Videos:</label>
+            <div id="song-urls" class="urls-container">
+              <input type="url" name="song_urls[]" required="">
+            </div>
+            <br>
+            <button type="button" id="add-song-url" class="btn-add-url">Add Another Link</button>
+          </div>
+          <br>
+
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" name="explicit_lyrics">
+              Contains Explicit Lyrics
+            </label>
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="description">Why should this artist be added?</label>
+            <br>
+            <textarea id="description" name="description" rows="4" required=""></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">Submit Request</button>
+        </form>
+      </div>
+
+      <script>document.getElementById("add-song-url").addEventListener("click", function() {
+    const container = document.getElementById("song-urls");
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "url");
+    newInput.setAttribute("name", "song_urls[]");
+    newInput.required = true;
+    container.appendChild(newInput);
+});
+document.getElementById("new-artist-form").addEventListener("submit", function(event) {
+    const socialMediaInput = document.getElementById("social-media-urls");
+    const urls = socialMediaInput.value.split(",").map((url)=>url.trim()); // Split URLs by commas and trim whitespace
+    const validUrls = urls.every((url)=>isValidUrl(url)); // Validate each URL
+    if (!validUrls) {
+        alert("Please enter valid URLs, separated by commas.");
+        event.preventDefault(); // Prevent form submission
+    }
+});
+function isValidUrl(string) {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
+}
+
+</script>
+    <script src="/request.ce9163b0.js"></script></body>
+  
+</html>
